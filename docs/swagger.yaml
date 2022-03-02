@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Site of Refuge Hosts API
-  description: An API that allows people who wish to host refugees to interact with Site of Refuge
+  title: Site of Refuge API
+  description: An API that facilitates the matching of hosts with refugees
   termsOfService: https://siteofrefuge.com/tos
   contact:
     name: Developers
