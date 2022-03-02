@@ -13,10 +13,10 @@ info:
     url: https://siteofrefuge.com/license
 
 servers: 
-  - url: https://dev.siteofrefuge.com/api
+  - url: https://api-dev.siteofrefuge.com/v1
     description: Dev Server
     
-  - url: https://app.siteofrefuse.com/api
+  - url: https://api.siteofrefuse.com/v1
     description: Production Server
     
 paths:
