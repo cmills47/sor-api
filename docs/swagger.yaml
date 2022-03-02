@@ -13,7 +13,7 @@ info:
     url: https://siteofrefuge.com/license
 
 servers: 
-  - url: https://api-dev.siteofrefuge.com/v1
+  - url: https://api-staging.siteofrefuge.com/v1
     description: Dev Server
     
   - url: https://api.siteofrefuge.com/v1
