@@ -66,10 +66,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            description: Unique identifier in UUID/GUID format
-            pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
-            example: '3F2504E0-4F89-41D3-9A0C-0305E82C3301'
+            $ref: '#/components/schemas/Id'
       responses:
         200:
           description: Success
@@ -159,10 +156,7 @@ components:
       description: Summary of a Host
       properties:
         id: 
-          type: string
-          description: Unique identifier in UUID/GUID format
-          pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
-          example: '3F2504E0-4F89-41D3-9A0C-0305E82C3301'
+          $ref: '#/components/schemas/Id'
         region:
           type: string
           description: The region where the host is located. This is in ISO 3166-2 format.
@@ -198,6 +192,12 @@ components:
         - shelter
         - availability
         
+    Id:
+      type: string
+      description: Unique identifier in UUID/GUID format
+      pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
+      example: '3F2504E0-4F89-41D3-9A0C-0305E82C3301'
+        
     Restrictions:
       type: string
       enum:
@@ -223,4 +223,3 @@ components:
         - Polish
         - Russian
         - Other
-
