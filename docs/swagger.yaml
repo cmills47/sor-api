@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Site of Refuge API
-  description: An API that facilitates the matching of hosts with refugees
+  title: Site of Refuge Hosts API
+  description: An API that allows people who wish to host refugees to interact with Site of Refuge
   termsOfService: https://siteofrefuge.com/tos
   contact:
     name: Developers
@@ -16,7 +16,7 @@ servers:
   - url: https://api-staging.siteofrefuge.com/v1
     description: Dev Server
     
-  - url: https://api.siteofrefuge.com/v1
+  - url: https://api.siteofrefuse.com/v1
     description: Production Server
     
 paths:
@@ -29,11 +29,7 @@ paths:
           in: query
           description: The region where the host is located. This is in ISO 3166-2 format.
           schema:
-            type: string
-            minLength: 4
-            maxLength: 6
-            pattern: '^[A-Z]{2}-[A-Z0-9]{1,3}$'
-            example: PL-26
+            $ref: '#/components/schemas/Region'
 
       responses:
         200:
@@ -198,6 +194,13 @@ components:
       pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
       example: '3F2504E0-4F89-41D3-9A0C-0305E82C3301'
         
+    Region:
+      type: string
+      minLength: 4
+      maxLength: 6
+      pattern: '^[A-Z]{2}-[A-Z0-9]{1,3}$'
+      example: PL-26
+    
     Restrictions:
       type: string
       enum:
