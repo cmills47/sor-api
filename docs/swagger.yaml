@@ -16,7 +16,7 @@ servers:
   - url: https://api-dev.siteofrefuge.com/v1
     description: Dev Server
     
-  - url: https://api.siteofrefuse.com/v1
+  - url: https://api.siteofrefuge.com/v1
     description: Production Server
     
 paths:
