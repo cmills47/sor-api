@@ -6,7 +6,7 @@ on:
 env:
   AZURE_FUNCTIONAPP_NAME: sor-api  
   AZURE_FUNCTIONAPP_PACKAGE_PATH: './api'
-  DOTNET_VERSION: 'net6.0' 
+  DOTNET_VERSION: '6.0' 
 
 jobs:
   build-and-deploy:
