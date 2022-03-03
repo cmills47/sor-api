@@ -13,8 +13,8 @@ info:
     url: https://siteofrefuge.com/license
 
 servers: 
-  - url: https://api-staging.siteofrefuge.com/v1/
-    description: Dev Server
+  - url: https://api.siteofrefuge.com/
+    description: Core API server
         
 paths:
   /hosts:
