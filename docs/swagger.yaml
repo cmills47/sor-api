@@ -78,6 +78,46 @@ paths:
                 title: Host not found
                 type: string
                 example: Not found
+
+  /refugee:
+    post:
+      description: Registers a new refugee in the system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref:  '#/components/schemas/Refugee'
+      responses:
+        201:
+          description: Created
+  
+  /refugee/{id}:
+    get:
+      description: Get information about a specific refugee
+      parameters:
+        - name: id
+          description: Refugee id in UUID/GUID format
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refugee'
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Refugee not found
+                type: string
+                example: Not found
+
               
 components:
   schemas:
@@ -194,8 +234,39 @@ components:
       pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
       example: '3F2504E0-4F89-41D3-9A0C-0305E82C3301'
         
+    Refugee:
+      description: A refugee and their family
+      properties:
+        id: 
+          $ref: '#/components/schemas/Id'
+        region:
+           $ref: '#/components/schemas/Region'
+        people:
+          type: integer
+          format: int32
+          example: 2
+        contact:
+          $ref: '#/components/schemas/Contact'
+        restrictions:
+          description: Any restrictions that might impact placement
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Restrictions'
+        languages:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/SpokenLanguages'
+      required:
+        - id
+        - region
+        - people
+        - availability    
+        
     Region:
       type: string
+      description: The region where the person is located. This is in ISO 3166-2 format.
       minLength: 4
       maxLength: 6
       pattern: '^[A-Z]{2}-[A-Z0-9]{1,3}$'
