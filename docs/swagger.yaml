@@ -78,7 +78,7 @@ paths:
                 type: string
                 example: Not found
 
-  /refugee:
+  /refugees:
     get:
       description: Get a summary list of refugees registered in the system
       operationId: GetRefugees
@@ -112,7 +112,7 @@ paths:
         201:
           description: Created
   
-  /refugee/{id}:
+  /refugees/{id}:
     get:
       description: Get information about a specific refugee
       operationId: GetRefugee
