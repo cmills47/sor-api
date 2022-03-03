@@ -13,17 +13,14 @@ info:
     url: https://siteofrefuge.com/license
 
 servers: 
-  - url: https://api-staging.siteofrefuge.com/v1
+  - url: https://api-staging.siteofrefuge.com/v1/
     description: Dev Server
-    
-  - url: https://api.siteofrefuse.com/v1
-    description: Production Server
-    
+        
 paths:
   /hosts:
     get:
       description: Get a summary list of hosts registered in the system
-      
+      operationId: GetHosts
       parameters: 
         - name: region
           in: query
@@ -43,6 +40,7 @@ paths:
                   
     post:
       description: Registers a new host in the system
+      operationId: AddHost
       requestBody:
         required: true
         content:
@@ -56,6 +54,7 @@ paths:
   /hosts/{id}:
     get:
       description: Get information about a specific host
+      operationId: GetHost
       parameters:
         - name: id
           description: Host id in UUID/GUID format
@@ -82,7 +81,7 @@ paths:
   /refugee:
     get:
       description: Get a summary list of refugees registered in the system
-      
+      operationId: GetRefugees
       parameters: 
         - name: region
           in: query
@@ -102,6 +101,7 @@ paths:
 
     post:
       description: Registers a new refugee in the system
+      operationId: AddRefugee
       requestBody:
         required: true
         content:
@@ -115,6 +115,7 @@ paths:
   /refugee/{id}:
     get:
       description: Get information about a specific refugee
+      operationId: GetRefugee
       parameters:
         - name: id
           description: Refugee id in UUID/GUID format
@@ -141,6 +142,7 @@ paths:
   /search/{id}:
     get:
       description: Attempt to find hosts that match the needs of a refugee. This id has to match with the id in the access token.
+      operationId: FindMatch
       parameters:
         - name: id
           description: Refugee id in UUID/GUID format
@@ -177,6 +179,7 @@ paths:
 components:
   schemas:
     Availability:
+      type: object
       properties:
         date_available:
           type: string
@@ -195,35 +198,34 @@ components:
             - Over 4 months
 
     Contact:
-      description: Contact information of a host
+      type: object
+      description: Contact information of a person
       properties:
         name:
           type: string
-          description: The host's full name
+          description: The person's full name
           minLength: 3
           maxLength: 256
         methods:
-          description: The way(s) in which this host can be contacted
+          description: The way(s) in which this person can be contacted
           type: array
           items:
-            $ref: '#/components/schemas/ContactMethod'
+            $ref: '#/components/schemas/ContactMode'
       required:
         - name
         - methods
 
-    ContactMethod:
-      description: The method in which this host can be contacted
+    ContactMode:
+      type: object
+      description: The method in which this person can be contacted
       properties:
         method:
           type: string
-          description: The actual way to contact the host
-          enum:
-            - Phone
-            - Email
-            - SMS
+          description: The actual way to contact this person
+          enum: [ "Phone", "Email", "SMS"]
         value:
           type: string
-          description: The details on how to contact this host (actual phone number, email address etc)
+          description: The details on how to contact this person (actual phone number, email address etc)
         verified:
           type: boolean
           description: Has this contact method been verified?
@@ -233,6 +235,7 @@ components:
         - value
 
     Host:
+      type: object
       description: Detailed information about a host
       properties:
         summary:        
@@ -244,6 +247,7 @@ components:
         - contact
 
     HostSummary:
+      type: object
       description: Summary of a Host
       properties:
         id: 
@@ -263,8 +267,7 @@ components:
           description: Any restrictions the host has for this shelter
           type: array
           items:
-            anyOf:
-              - $ref: '#/components/schemas/Restrictions'
+            $ref: '#/components/schemas/Restrictions'
         message:
           type: string
           description: A freeform text field that allows for a personalized message
@@ -277,8 +280,7 @@ components:
         languages:
           type: array
           items:
-            anyOf:
-              - $ref: '#/components/schemas/SpokenLanguages'
+            $ref: '#/components/schemas/SpokenLanguages'
         availability:
           $ref: '#/components/schemas/Availability'
       required:
@@ -295,6 +297,7 @@ components:
       example: '3F2504E0-4F89-41D3-9A0C-0305E82C3301'
         
     Refugee:
+      type: object
       description: Detailed information about a refugee and their family
       properties:
         summary:        
@@ -306,6 +309,7 @@ components:
         - contact
         
     RefugeeSummary:
+      type: object
       description: A summary of a refugee
       properties:
         id: 
@@ -325,13 +329,11 @@ components:
           description: Any restrictions that might impact placement
           type: array
           items:
-            anyOf:
-              - $ref: '#/components/schemas/Restrictions'
+            $ref: '#/components/schemas/Restrictions'
         languages:
           type: array
           items:
-            anyOf:
-              - $ref: '#/components/schemas/SpokenLanguages'
+            $ref: '#/components/schemas/SpokenLanguages'
         possession_date:
           type: string
           format: date
@@ -352,26 +354,30 @@ components:
     
     Restrictions:
       type: string
-      enum:
-        - Pets
-        - Kids
-        - Adult men
-        - Adult women
+      enum: [ 
+        "Pets", 
+        "Kids", 
+        "Adult men", 
+        "Adult women"
+      ]
         
     Shelter:
       type: string
-      enum:
-        - House with several rooms
-        - Independent apartment
-        - Room in a house of an apartment where you live
-        - A bed in a shared room
-        - A space in a hotel/hostel
+      description: The type of shelter being offered
+      enum: [
+        "House with several rooms",
+        "Independent apartment",
+        "Room in a house of an apartment where you live",
+        "A bed in a shared room", "A space in a hotel/hostel"
+      ]
 
     SpokenLanguages:
       type: string
-      enum:
-        - English
-        - Ukrainian
-        - Polish
-        - Russian
-        - Other
+      description: The language(s) spoken by this person
+      enum: [
+        "English", 
+        "Ukrainian",
+        "Polish",
+        "Russian",
+        "Other"
+      ]
