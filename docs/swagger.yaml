@@ -117,8 +117,43 @@ paths:
                 title: Refugee not found
                 type: string
                 example: Not found
+  
+  /search/{id}:
+    get:
+      description: Attempt to find hosts that match the needs of a refugee. This id has to match with the id in the access token.
+      parameters:
+        - name: id
+          description: Refugee id in UUID/GUID format
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        200:
+          description: Successfully found potential matches
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HostSummary'
+        403:
+          description: Access forbidden to search. Refugee Id does NOT match access token user id
+          content:
+            text/plain:
+              schema:
+                title: Forbidden
+                type: string
+                example: Forbidden
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Match not found
+                type: string
+                example: Not found
 
-              
 components:
   schemas:
     Availability:
