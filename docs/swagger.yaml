@@ -13,7 +13,7 @@ info:
     url: https://siteofrefuge.com/license
 
 servers: 
-  - url: https://api.siteofrefuge.com/
+  - url: https://api.siteofrefuge.com/v1/
     description: Core API server
         
 paths:
