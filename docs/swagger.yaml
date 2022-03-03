@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Site of Refuge Hosts API
-  description: An API that allows people who wish to host refugees to interact with Site of Refuge
+  title: Site of Refuge API
+  description: An API that helps match refugees with resources like shelter, education and jobs
   termsOfService: https://siteofrefuge.com/tos
   contact:
     name: Developers
@@ -80,6 +80,26 @@ paths:
                 example: Not found
 
   /refugee:
+    get:
+      description: Get a summary list of refugees registered in the system
+      
+      parameters: 
+        - name: region
+          in: query
+          description: The region where the refugee is located. This is in ISO 3166-2 format.
+          schema:
+            $ref: '#/components/schemas/Region'
+
+      responses:
+        200:
+          description: Successfully queried refugee information
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RefugeeSummary'
+
     post:
       description: Registers a new refugee in the system
       requestBody:
@@ -245,6 +265,11 @@ components:
           items:
             anyOf:
               - $ref: '#/components/schemas/Restrictions'
+        message:
+          type: string
+          description: A freeform text field that allows for a personalized message
+          maxLength: 1024
+          example: We have a free bedroom in our house. We can come pick you up.
         shelter:
           type: string
           oneOf:
@@ -270,7 +295,18 @@ components:
       example: '3F2504E0-4F89-41D3-9A0C-0305E82C3301'
         
     Refugee:
-      description: A refugee and their family
+      description: Detailed information about a refugee and their family
+      properties:
+        summary:        
+          $ref: '#/components/schemas/RefugeeSummary'
+        contact:
+          $ref: '#/components/schemas/Contact'
+      required:
+        - summary
+        - contact
+        
+    RefugeeSummary:
+      description: A summary of a refugee
       properties:
         id: 
           $ref: '#/components/schemas/Id'
@@ -280,8 +316,11 @@ components:
           type: integer
           format: int32
           example: 2
-        contact:
-          $ref: '#/components/schemas/Contact'
+        message:
+          type: string
+          description: A freeform text field that allows for a personalized message
+          maxLength: 1024
+          example: I'm a single mom with an infant son. Please help.
         restrictions:
           description: Any restrictions that might impact placement
           type: array
@@ -293,11 +332,15 @@ components:
           items:
             anyOf:
               - $ref: '#/components/schemas/SpokenLanguages'
+        possession_date:
+          type: string
+          format: date
+          description: Date when shelter is needed by
       required:
         - id
         - region
         - people
-        - availability    
+        - possession_date    
         
     Region:
       type: string
