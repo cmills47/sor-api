@@ -80,5 +80,40 @@ namespace SiteOfRefuge.API
 
             throw new NotImplementedException();
         }
+
+        /// <summary> Updates a new host in the system. </summary>
+        /// <param name="id"> Host id in UUID/GUID format. </param>
+        /// <param name="body"> The Host to use. </param>
+        /// <param name="req"> Raw HTTP Request. </param>
+        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="id"/> or <paramref name="body"/> is null. </exception>
+        [FunctionName("UpdateHostAsync_put")]
+        public async Task<IActionResult> UpdateHostAsync(string id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "hosts/{id}")] Host body, HttpRequest req, CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation("HTTP trigger function processed a request.");
+
+            // TODO: Handle Documented Responses.
+            // Spec Defines: HTTP 204
+            // Spec Defines: HTTP 404
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary> Schedules a host to be deleted from the system (after 7 days archival). </summary>
+        /// <param name="req"> Raw HTTP Request. </param>
+        /// <param name="id"> Host id in UUID/GUID format. </param>
+        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="id"/> is null. </exception>
+        [FunctionName("DeleteHostAsync_delete")]
+        public async Task<IActionResult> DeleteHostAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "hosts/{id}")] HttpRequest req, string id, CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation("HTTP trigger function processed a request.");
+
+            // TODO: Handle Documented Responses.
+            // Spec Defines: HTTP 202
+            // Spec Defines: HTTP 404
+
+            throw new NotImplementedException();
+        }
     }
 }

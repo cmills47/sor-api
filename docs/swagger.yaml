@@ -77,6 +77,56 @@ paths:
                 title: Host not found
                 type: string
                 example: Not found
+                
+    put:
+      description: Updates a new host in the system
+      operationId: UpdateHost
+      parameters:
+        - name: id
+          description: Host id in UUID/GUID format
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref:  '#/components/schemas/Host'
+      responses:
+        204:
+          description: Updated
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Host not found
+                type: string
+                example: Not found
+          
+    delete:
+      description: Schedules a host to be deleted from the system (after 7 days archival)
+      operationId: DeleteHost
+      parameters:
+        - name: id
+          description: Host id in UUID/GUID format
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        202:
+          description: Queued for deletion
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Host not found
+                type: string
+                example: Not found
 
   /refugees:
     get:
@@ -138,6 +188,57 @@ paths:
                 title: Refugee not found
                 type: string
                 example: Not found
+                
+    put:
+      description: Updates a refugee in the system
+      operationId: UpdateRefugee
+      parameters:
+        - name: id
+          description: Refugee id in UUID/GUID format
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref:  '#/components/schemas/Refugee'
+      responses:
+        204:
+          description: Updated
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Refugee not found
+                type: string
+                example: Not found
+          
+    delete:
+      description: Schedules a refugee to be deleted from the system (after 7 days archival)
+      operationId: DeleteRefugee
+      parameters:
+        - name: id
+          description: Refugee id in UUID/GUID format
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        202:
+          description: Queued for deletion
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Refugee not found
+                type: string
+                example: Not found
+
   
   /search/{id}:
     get:
@@ -222,7 +323,10 @@ components:
         method:
           type: string
           description: The actual way to contact this person
-          enum: [ "Phone", "Email", "SMS"]
+          enum: 
+            - Phone
+            - Email
+            - SMS
         value:
           type: string
           description: The details on how to contact this person (actual phone number, email address etc)
@@ -354,30 +458,32 @@ components:
     
     Restrictions:
       type: string
-      enum: [ 
-        "Pets", 
-        "Kids", 
-        "Adult men", 
-        "Adult women"
-      ]
+      enum:  
+        - Pets 
+        - Kids
+        - Adult men
+        - Adult women
+      
         
     Shelter:
       type: string
       description: The type of shelter being offered
-      enum: [
-        "House with several rooms",
-        "Independent apartment",
-        "Room in a house of an apartment where you live",
-        "A bed in a shared room", "A space in a hotel/hostel"
-      ]
+      enum: 
+        - House with several rooms
+        - Independent apartment
+        - Room in a house of an apartment where you live
+        - A bed in a shared room
+        - A space in a hotel/hostel
 
     SpokenLanguages:
       type: string
       description: The language(s) spoken by this person
-      enum: [
-        "English", 
-        "Ukrainian",
-        "Polish",
-        "Russian",
-        "Other"
-      ]
+      enum: 
+        - English
+        - Ukrainian
+        - Polish
+        - Russian
+        - Slovak
+        - Hungarian
+        - Romanian
+        - Other

@@ -26,6 +26,9 @@ namespace SiteOfRefuge.API
         private const string UkrainianValue = "Ukrainian";
         private const string PolishValue = "Polish";
         private const string RussianValue = "Russian";
+        private const string SlovakValue = "Slovak";
+        private const string HungarianValue = "Hungarian";
+        private const string RomanianValue = "Romanian";
         private const string OtherValue = "Other";
 
         /// <summary> English. </summary>
@@ -36,6 +39,12 @@ namespace SiteOfRefuge.API
         public static SpokenLanguages Polish { get; } = new SpokenLanguages(PolishValue);
         /// <summary> Russian. </summary>
         public static SpokenLanguages Russian { get; } = new SpokenLanguages(RussianValue);
+        /// <summary> Slovak. </summary>
+        public static SpokenLanguages Slovak { get; } = new SpokenLanguages(SlovakValue);
+        /// <summary> Hungarian. </summary>
+        public static SpokenLanguages Hungarian { get; } = new SpokenLanguages(HungarianValue);
+        /// <summary> Romanian. </summary>
+        public static SpokenLanguages Romanian { get; } = new SpokenLanguages(RomanianValue);
         /// <summary> Other. </summary>
         public static SpokenLanguages Other { get; } = new SpokenLanguages(OtherValue);
         /// <summary> Determines if two <see cref="SpokenLanguages"/> values are the same. </summary>

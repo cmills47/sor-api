@@ -22,7 +22,7 @@ namespace SiteOfRefuge.API
     {
         private ILogger<RefugeesApi> _logger;
 
-        /// <summary> Initializes a new instance of RefugeeApi. </summary>
+        /// <summary> Initializes a new instance of RefugeesApi. </summary>
         /// <param name="logger"> Class logger. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="logger"/> is null. </exception>
         public RefugeesApi(ILogger<RefugeesApi> logger)
@@ -82,6 +82,41 @@ namespace SiteOfRefuge.API
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 200
+            // Spec Defines: HTTP 404
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary> Updates a refugee in the system. </summary>
+        /// <param name="id"> Refugee id in UUID/GUID format. </param>
+        /// <param name="body"> The Refugee to use. </param>
+        /// <param name="req"> Raw HTTP Request. </param>
+        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="id"/> or <paramref name="body"/> is null. </exception>
+        [FunctionName("UpdateRefugeeAsync_put")]
+        public async Task<IActionResult> UpdateRefugeeAsync(string id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "refugees/{id}")] Refugee body, HttpRequest req, CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation("HTTP trigger function processed a request.");
+
+            // TODO: Handle Documented Responses.
+            // Spec Defines: HTTP 204
+            // Spec Defines: HTTP 404
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary> Schedules a refugee to be deleted from the system (after 7 days archival). </summary>
+        /// <param name="req"> Raw HTTP Request. </param>
+        /// <param name="id"> Refugee id in UUID/GUID format. </param>
+        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="id"/> is null. </exception>
+        [FunctionName("DeleteRefugeeAsync_delete")]
+        public async Task<IActionResult> DeleteRefugeeAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "refugees/{id}")] HttpRequest req, string id, CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation("HTTP trigger function processed a request.");
+
+            // TODO: Handle Documented Responses.
+            // Spec Defines: HTTP 202
             // Spec Defines: HTTP 404
 
             throw new NotImplementedException();
