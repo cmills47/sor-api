@@ -33,14 +33,18 @@ namespace SiteOfRefuge.API.Models
         }
 
         /// <summary> Initializes a new instance of Contact. </summary>
+        /// <param name="id"> Unique identifier in UUID/GUID format. </param>
         /// <param name="name"> The person&apos;s full name. </param>
         /// <param name="methods"> The way(s) in which this person can be contacted. </param>
-        internal Contact(string name, IList<ContactMode> methods)
+        internal Contact(Guid? id, string name, IList<ContactMode> methods)
         {
+            Id = id;
             Name = name;
             Methods = methods;
         }
 
+        /// <summary> Unique identifier in UUID/GUID format. </summary>
+        public Guid? Id { get; set; }
         /// <summary> The person&apos;s full name. </summary>
         public string Name { get; set; }
         /// <summary> The way(s) in which this person can be contacted. </summary>

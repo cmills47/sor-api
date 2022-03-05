@@ -29,16 +29,20 @@ namespace SiteOfRefuge.API.Models
         }
 
         /// <summary> Initializes a new instance of ContactMode. </summary>
+        /// <param name="id"> Unique identifier in UUID/GUID format. </param>
         /// <param name="method"> The actual way to contact this person. </param>
         /// <param name="value"> The details on how to contact this person (actual phone number, email address etc). </param>
         /// <param name="verified"> Has this contact method been verified?. </param>
-        internal ContactMode(ContactModeMethod method, string value, bool? verified)
+        internal ContactMode(Guid? id, ContactModeMethod method, string value, bool? verified)
         {
+            Id = id;
             Method = method;
             Value = value;
             Verified = verified;
         }
 
+        /// <summary> Unique identifier in UUID/GUID format. </summary>
+        public Guid? Id { get; set; }
         /// <summary> The actual way to contact this person. </summary>
         public ContactModeMethod Method { get; set; }
         /// <summary> The details on how to contact this person (actual phone number, email address etc). </summary>

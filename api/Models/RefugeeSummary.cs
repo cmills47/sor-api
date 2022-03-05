@@ -16,16 +16,12 @@ namespace SiteOfRefuge.API.Models
     {
         /// <summary> Initializes a new instance of RefugeeSummary. </summary>
         /// <param name="id"> Unique identifier in UUID/GUID format. </param>
-        /// <param name="region"> The region where the person is located. This is in ISO 3166-2 format. </param>
+        /// <param name="region"> The region where the refugee is located. </param>
         /// <param name="people"> . </param>
         /// <param name="possessionDate"> Date when shelter is needed by. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/> or <paramref name="region"/> is null. </exception>
-        public RefugeeSummary(string id, string region, int people, DateTimeOffset possessionDate)
+        /// <exception cref="ArgumentNullException"> <paramref name="region"/> is null. </exception>
+        public RefugeeSummary(Guid id, string region, int people, DateTimeOffset possessionDate)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
             if (region == null)
             {
                 throw new ArgumentNullException(nameof(region));
@@ -41,13 +37,13 @@ namespace SiteOfRefuge.API.Models
 
         /// <summary> Initializes a new instance of RefugeeSummary. </summary>
         /// <param name="id"> Unique identifier in UUID/GUID format. </param>
-        /// <param name="region"> The region where the person is located. This is in ISO 3166-2 format. </param>
+        /// <param name="region"> The region where the refugee is located. </param>
         /// <param name="people"> . </param>
         /// <param name="message"> A freeform text field that allows for a personalized message. </param>
         /// <param name="restrictions"> Any restrictions that might impact placement. </param>
         /// <param name="languages"> . </param>
         /// <param name="possessionDate"> Date when shelter is needed by. </param>
-        internal RefugeeSummary(string id, string region, int people, string message, IList<Restrictions> restrictions, IList<SpokenLanguages> languages, DateTimeOffset possessionDate)
+        internal RefugeeSummary(Guid id, string region, int people, string message, IList<Restrictions> restrictions, IList<SpokenLanguages> languages, DateTimeOffset possessionDate)
         {
             Id = id;
             Region = region;
@@ -59,8 +55,8 @@ namespace SiteOfRefuge.API.Models
         }
 
         /// <summary> Unique identifier in UUID/GUID format. </summary>
-        public string Id { get; set; }
-        /// <summary> The region where the person is located. This is in ISO 3166-2 format. </summary>
+        public Guid Id { get; set; }
+        /// <summary> The region where the refugee is located. </summary>
         public string Region { get; set; }
         public int People { get; set; }
         /// <summary> A freeform text field that allows for a personalized message. </summary>

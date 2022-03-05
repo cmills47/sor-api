@@ -16,17 +16,13 @@ namespace SiteOfRefuge.API.Models
     {
         /// <summary> Initializes a new instance of HostSummary. </summary>
         /// <param name="id"> Unique identifier in UUID/GUID format. </param>
-        /// <param name="region"> The region where the host is located. This is in ISO 3166-2 format. </param>
+        /// <param name="region"> The region where the person is located. This is in ISO 3166-2 format. </param>
         /// <param name="allowedPeople"> . </param>
         /// <param name="shelter"> . </param>
         /// <param name="availability"> . </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/>, <paramref name="region"/>, <paramref name="shelter"/>, or <paramref name="availability"/> is null. </exception>
-        public HostSummary(string id, string region, int allowedPeople, string shelter, Availability availability)
+        /// <exception cref="ArgumentNullException"> <paramref name="region"/>, <paramref name="shelter"/>, or <paramref name="availability"/> is null. </exception>
+        public HostSummary(Guid id, string region, int allowedPeople, string shelter, Availability availability)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
             if (region == null)
             {
                 throw new ArgumentNullException(nameof(region));
@@ -51,14 +47,14 @@ namespace SiteOfRefuge.API.Models
 
         /// <summary> Initializes a new instance of HostSummary. </summary>
         /// <param name="id"> Unique identifier in UUID/GUID format. </param>
-        /// <param name="region"> The region where the host is located. This is in ISO 3166-2 format. </param>
+        /// <param name="region"> The region where the person is located. This is in ISO 3166-2 format. </param>
         /// <param name="allowedPeople"> . </param>
         /// <param name="restrictions"> Any restrictions the host has for this shelter. </param>
         /// <param name="message"> A freeform text field that allows for a personalized message. </param>
         /// <param name="shelter"> . </param>
         /// <param name="languages"> . </param>
         /// <param name="availability"> . </param>
-        internal HostSummary(string id, string region, int allowedPeople, IList<Restrictions> restrictions, string message, string shelter, IList<SpokenLanguages> languages, Availability availability)
+        internal HostSummary(Guid id, string region, int allowedPeople, IList<Restrictions> restrictions, string message, string shelter, IList<SpokenLanguages> languages, Availability availability)
         {
             Id = id;
             Region = region;
@@ -71,8 +67,8 @@ namespace SiteOfRefuge.API.Models
         }
 
         /// <summary> Unique identifier in UUID/GUID format. </summary>
-        public string Id { get; set; }
-        /// <summary> The region where the host is located. This is in ISO 3166-2 format. </summary>
+        public Guid Id { get; set; }
+        /// <summary> The region where the person is located. This is in ISO 3166-2 format. </summary>
         public string Region { get; set; }
         public int AllowedPeople { get; set; }
         /// <summary> Any restrictions the host has for this shelter. </summary>
