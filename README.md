@@ -28,3 +28,10 @@ autorest --input-file:".\docs\swagger.yaml" \
   --generate-metadata:false \
   --output-folder:".\api"
 ```
+
+## Generating db from OpenAPI definition
+```sh
+autorest --input-file:".\docs\swagger.yaml" \
+  --use:autorest-sql-testing@latest
+  --output-folder=".\db"
+```
