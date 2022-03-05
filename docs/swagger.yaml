@@ -517,7 +517,6 @@ components:
           $ref: '#/components/schemas/Id'
         region:
           $ref: '#/components/schemas/Region'
-          description: The region where the host is located.
         allowed_people:
           type: integer
           format: int32
@@ -645,7 +644,6 @@ components:
         - Adult men
         - Adult women
       
-        
     Shelter:
       type: string
       description: The type of shelter being offered
