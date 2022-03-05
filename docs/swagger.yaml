@@ -239,7 +239,6 @@ paths:
                 type: string
                 example: Not found
 
-  
   /search/{id}:
     get:
       description: Attempt to find hosts that match the needs of a refugee. This id has to match with the id in the access token.
@@ -274,6 +273,158 @@ paths:
             text/plain:
               schema:
                 title: Match not found
+                type: string
+                example: Not found
+
+  /invite:
+    get:
+      description: Lists any current invitation requests for this user
+      operationId: GetInvites
+      responses:
+        200:
+          description: Successfully retrieved invitations for this user
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Invite'
+        403:
+          description: Access forbidden to list invitations for this account
+          content:
+            text/plain:
+              schema:
+                title: Forbidden
+                type: string
+                example: Forbidden
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: No invites found
+                type: string
+                example: Not found
+                
+    post:
+      description: Invite a refugee to connect
+      operationId: InviteRefugee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref:  '#/components/schemas/Id'
+      responses:
+        204:
+          description: Successfully sent an invitation
+        403:
+          description: Access forbidden. Only hosts can send invitations
+          content:
+            text/plain:
+              schema:
+                title: Forbidden
+                type: string
+                example: Forbidden
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Refugee not found
+                type: string
+                example: Not found
+
+  /invite/{id}:
+    get:
+      description: Show an invitation
+      operationId: GetInvite
+      parameters:
+        - name: id
+          description: Invite id in UUID/GUID format
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        200:
+          description: Successfully found potential matches
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HostSummary'
+        403:
+          description: Access forbidden to search. Refugee Id does NOT match access token user id
+          content:
+            text/plain:
+              schema:
+                title: Forbidden
+                type: string
+                example: Forbidden
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Match not found
+                type: string
+                example: Not found
+    put:
+      description: Accept an invitation to connect
+      operationId: AcceptInvitation
+      parameters:
+        - name: id
+          description: Invite id in UUID/GUID format
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref:  '#/components/schemas/Id'
+      responses:
+        204:
+          description: Successfully accepted an invitation
+        403:
+          description: Access forbidden. Only refugees can accept invitations
+          content:
+            text/plain:
+              schema:
+                title: Forbidden
+                type: string
+                example: Forbidden
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Invitation not found
+                type: string
+                example: Not found
+    delete:
+      description: Withdraw invitation request
+      operationId: DeleteInvite
+      parameters:
+        - name: id
+          description: Invite id in UUID/GUID format
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Id'
+      responses:
+        200:
+          description: Invite deleted
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Invitation not found
                 type: string
                 example: Not found
 
@@ -399,6 +550,28 @@ components:
       description: Unique identifier in UUID/GUID format
       pattern: '^[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}$'
       example: '3F2504E0-4F89-41D3-9A0C-0305E82C3301'
+ 
+    Invite:
+      type: object
+      description: An invitation to connect
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        refugee_id:        
+          $ref: '#/components/schemas/Id'
+        host_id:        
+          $ref: '#/components/schemas/Id'
+        date_requested:
+          type: string
+          format: date
+          description: Date when inivitation was sent
+        date_accepted:
+          type: string
+          format: date
+          description: Date when inivitation was accepted
+      required:
+        - refugee_id
+        - host_id
         
     Refugee:
       type: object
