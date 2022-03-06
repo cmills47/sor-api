@@ -80,7 +80,8 @@ namespace SiteOfRefuge.API
         const string PARAM_REFUGEESUMMARYTORESTRICTIONS_RESTRICTIONVALUE = "@RestrictionValue";
         const string PARAM_REFUGEESUMMARYTOLANGUAGES_REFUGEESUMMARYID = "@RefugeeSummaryId";
         const string PARAM_REFUGEESUMMARYTOLANGUAGES_LANGUAGEVALUE = "@LanguageValue";
-
+        const string PARAM_REFUGEESUMMARYTOLANGUAGES_SUMMARYID = "@SummaryId";
+        const string PARAM_REFUGEESUMMARYTORESTRICTIONS_SUMMARYID = "@SummaryId";
 
         /// <summary> Registers a new refugee in the system. </summary>
         /// <param name="body"> The Refugee to use. </param>
@@ -220,20 +221,23 @@ namespace SiteOfRefuge.API
             using(SqlConnection sql = new SqlConnection(SQL_CONNECTION_STRING))
             {
                 sql.Open();
+                JObject json = new JObject();
+                Guid? contactId = null;
+                Guid? summaryId = null;
                 using(SqlCommand cmd = new SqlCommand("select r.id as Id, rs.id as RefugeeSummaryId, rs.Region as RefugeeSummaryRegion, rs.People as RefugeeSummaryPeople, rs.Message as RefugeeSummaryMessage, rs.PossessionDate as RefugeePossessionDate, c.Id as RefugeeContactId, c.Name as RefugeeContactName from refugee r join refugeesummary rs on r.summary = rs.id join contact c on r.contact = c.id where r.Id = " + PARAM_REFUGEE_ID, sql))
                 {
                     cmd.Parameters.Add(new SqlParameter(PARAM_REFUGEE_ID, System.Data.SqlDbType.UniqueIdentifier));
                     cmd.Parameters[PARAM_REFUGEE_ID].Value = id;
                     using(SqlDataReader sdr = cmd.ExecuteReader())
                     {
-                        if(sdr.Read())
-                            return new BadRequestObjectResult("Error: trying to create a refugee with Id '" + id.ToString() + "' but a refugee with this Id already exists in the database.");
-                        JObject json = new JObject();
+                        if(!sdr.Read())
+                            return new BadRequestObjectResult("Error: no refugee with ID '" + id.ToString() + "'");
                         json["id"] = sdr.GetGuid(0).ToString();
 
                         //summary portion
                         JObject summary = new JObject();
-                        summary["id"] = sdr.GetGuid(1).ToString();
+                        summaryId = sdr.GetGuid(1);
+                        summary["id"] = summaryId.ToString();
                         summary["region"] = sdr.GetString(2);
                         summary["people"] = sdr.GetInt32(3);
                         summary["message"] = sdr.GetString(4);
@@ -244,14 +248,77 @@ namespace SiteOfRefuge.API
 
                         //contact portion
                         JObject contact = new JObject();
-                        contact["id"] = sdr.GetGuid(6).ToString();
+                        contactId = sdr.GetGuid(6);
+                        contact["id"] = contactId.ToString();
                         contact["name"] = sdr.GetString(7);
                         json["contact"] = contact;
 
-                        return new OkObjectResult(json.ToString());
                     }
                 }
+
+                using(SqlCommand cmd = new SqlCommand("select cm.Id, cmm.description, cm.Value, cm.verified from contacttomethods ctm join contactmode cm on ctm.contactmodeid = cm.id join contactmodemethod cmm on cm.method = cmm.id where ctm.contactid = " + PARAM_CONTACTTOMETHODS_CONTACTID, sql))
+                {
+                    cmd.Parameters.Add(new SqlParameter(PARAM_CONTACTTOMETHODS_CONTACTID, System.Data.SqlDbType.UniqueIdentifier));
+                    cmd.Parameters[PARAM_CONTACTTOMETHODS_CONTACTID].Value = contactId;
+                    List<JObject> contactMethods = new List<JObject>();
+                    using(SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        if(!sdr.Read())
+                            return new BadRequestObjectResult("Error: no contact with ID '" + contactId.ToString() + "'");
+                        JObject contactMethod = new JObject();
+                        contactMethod["id"] = sdr.GetGuid(0).ToString();
+                        contactMethod["method"] = sdr.GetString(1);
+                        contactMethod["value"] = sdr.GetString(2);
+                        bool verified = sdr.GetBoolean(3);
+                        contactMethod["verified"] = verified;
+                        contactMethods.Add(contactMethod);
+                    }
+                    json["contact"]["methods"] = JToken.FromObject(contactMethods);
+                }
+
+                using(SqlCommand cmd = new SqlCommand("select sl.description from refugeesummarytolanguages rstl join spokenlanguages sl on rstl.spokenlanguagesid = sl.id where rstl.refugeesummaryid = " + PARAM_REFUGEESUMMARYTOLANGUAGES_SUMMARYID, sql))
+                {
+                    cmd.Parameters.Add(new SqlParameter(PARAM_REFUGEESUMMARYTOLANGUAGES_SUMMARYID, System.Data.SqlDbType.UniqueIdentifier));
+                    cmd.Parameters[PARAM_REFUGEESUMMARYTOLANGUAGES_SUMMARYID].Value = summaryId;
+                    List<string> languages = new List<string>();
+                    using(SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        int found = 0;
+                        while(sdr.Read())
+                        {
+                            found++;
+                            languages.Add(sdr.GetString(0));
+                        }
+                        //QUESTION: it's okay not to restrict to a particular language, right? or need 1+?
+                        //if(found < 1)
+                        //    return new BadRequestObjectResult("Error: no contact with ID '" + contactId.ToString() + "'");
+                    }
+                    json["summary"]["languages"] = JToken.FromObject(languages);
+                }
+
+                using(SqlCommand cmd = new SqlCommand("select r.description from refugeesummarytorestrictions rstr join Restrictions r on rstr.restrictionsid = r.id where rstr.refugeesummaryid = " + PARAM_REFUGEESUMMARYTORESTRICTIONS_SUMMARYID, sql))
+                {
+                    cmd.Parameters.Add(new SqlParameter(PARAM_REFUGEESUMMARYTORESTRICTIONS_SUMMARYID, System.Data.SqlDbType.UniqueIdentifier));
+                    cmd.Parameters[PARAM_REFUGEESUMMARYTORESTRICTIONS_SUMMARYID].Value = summaryId;
+                    List<string> restrictions = new List<string>();
+                    using(SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        int found = 0;
+                        while(sdr.Read())
+                        {
+                            found++;
+                            restrictions.Add(sdr.GetString(0));
+                        }
+                        //QUESTION: it's okay not to restrict to a particular language, right? or need 1+?
+                        //if(found < 1)
+                        //    return new BadRequestObjectResult("Error: no contact with ID '" + contactId.ToString() + "'");
+                    }
+                    json["summary"]["restrictions"] = JToken.FromObject(restrictions);
+                }
+
                 sql.Close();
+
+                return new OkObjectResult(json.ToString());
             }
 
 
