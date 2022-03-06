@@ -14,6 +14,7 @@ namespace SiteOfRefuge.API
     public readonly partial struct ContactModeMethod : IEquatable<ContactModeMethod>
     {
         private readonly string _value;
+        public string Value { get { return this._value; } } //need to read this to query for the ID
 
         /// <summary> Determines if two <see cref="ContactModeMethod"/> values are the same. </summary>
         /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>

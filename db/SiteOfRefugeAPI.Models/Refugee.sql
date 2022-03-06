@@ -1,4 +1,4 @@
-CREATE TABLE [SiteOfRefugeAPI.Models].[Refugee](
+CREATE TABLE [Refugee](
 	[Id] [uniqueidentifier] NOT NULL,
 	[Summary] [uniqueidentifier],
 	[Contact] [uniqueidentifier],
@@ -7,7 +7,7 @@ CREATE TABLE [SiteOfRefugeAPI.Models].[Refugee](
 	[Id]
 ),
  CONSTRAINT [FK_Refugee_Contact] FOREIGN KEY([Contact])
-REFERENCES [SiteOfRefugeAPI.Models].[Contact] ([Id]),
+REFERENCES [Contact] ([Id]),
  CONSTRAINT [FK_Refugee_RefugeeSummary] FOREIGN KEY([Summary])
-REFERENCES [SiteOfRefugeAPI.Models].[RefugeeSummary] ([Id])
+REFERENCES [RefugeeSummary] ([Id])
 )
