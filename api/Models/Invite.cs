@@ -15,18 +15,8 @@ namespace SiteOfRefuge.API.Models
         /// <summary> Initializes a new instance of Invite. </summary>
         /// <param name="refugeeId"> Unique identifier in UUID/GUID format. </param>
         /// <param name="hostId"> Unique identifier in UUID/GUID format. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="refugeeId"/> or <paramref name="hostId"/> is null. </exception>
-        internal Invite(string refugeeId, string hostId)
+        internal Invite(Guid refugeeId, Guid hostId)
         {
-            if (refugeeId == null)
-            {
-                throw new ArgumentNullException(nameof(refugeeId));
-            }
-            if (hostId == null)
-            {
-                throw new ArgumentNullException(nameof(hostId));
-            }
-
             RefugeeId = refugeeId;
             HostId = hostId;
         }
@@ -37,7 +27,7 @@ namespace SiteOfRefuge.API.Models
         /// <param name="hostId"> Unique identifier in UUID/GUID format. </param>
         /// <param name="dateRequested"> Date when inivitation was sent. </param>
         /// <param name="dateAccepted"> Date when inivitation was accepted. </param>
-        internal Invite(string id, string refugeeId, string hostId, DateTimeOffset? dateRequested, DateTimeOffset? dateAccepted)
+        internal Invite(Guid? id, Guid refugeeId, Guid hostId, DateTimeOffset? dateRequested, DateTimeOffset? dateAccepted)
         {
             Id = id;
             RefugeeId = refugeeId;
@@ -47,11 +37,11 @@ namespace SiteOfRefuge.API.Models
         }
 
         /// <summary> Unique identifier in UUID/GUID format. </summary>
-        public string Id { get; }
+        public Guid? Id { get; }
         /// <summary> Unique identifier in UUID/GUID format. </summary>
-        public string RefugeeId { get; }
+        public Guid RefugeeId { get; }
         /// <summary> Unique identifier in UUID/GUID format. </summary>
-        public string HostId { get; }
+        public Guid HostId { get; }
         /// <summary> Date when inivitation was sent. </summary>
         public DateTimeOffset? DateRequested { get; }
         /// <summary> Date when inivitation was accepted. </summary>

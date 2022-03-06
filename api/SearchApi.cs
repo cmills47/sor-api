@@ -37,9 +37,8 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Refugee id in UUID/GUID format. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/> is null. </exception>
         [FunctionName("FindMatchAsync_get")]
-        public async Task<IActionResult> FindMatchAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "search/{id}")] HttpRequest req, string id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> FindMatchAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "search/{id}")] HttpRequest req, Guid id, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("HTTP trigger function processed a request.");
 

@@ -47,12 +47,11 @@ namespace SiteOfRefuge.API
             // Spec Defines: HTTP 200
 
             IEnumerable<RefugeeSummary> refugeeList = new List<RefugeeSummary> {
-                new RefugeeSummary( "3F2504E0-4F89-41D3-9A0C-0305E82C3301", "PL-06", 1, new DateTimeOffset(DateTime.UtcNow) ),
-                new RefugeeSummary( "2D2503E0-4D89-41C6-2D3E-1263EF2B1829", "PL-16", 4, new DateTimeOffset(DateTime.UtcNow) )
+                new RefugeeSummary( new Guid("3F2504E0-4F89-41D3-9A0C-0305E82C3301"), "PL-06", 1, new DateTimeOffset(DateTime.UtcNow) ),
+                new RefugeeSummary( new Guid("2D2503E0-4D89-41C6-2D3E-1263EF2B1829"), "PL-16", 4, new DateTimeOffset(DateTime.UtcNow) )
             };
             
             return new OkObjectResult(refugeeList);
-
         }
 
         /// <summary> Registers a new refugee in the system. </summary>
@@ -75,9 +74,8 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Refugee id in UUID/GUID format. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/> is null. </exception>
         [FunctionName("GetRefugeeAsync_get")]
-        public async Task<IActionResult> GetRefugeeAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "refugees/{id}")] HttpRequest req, string id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetRefugeeAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "refugees/{id}")] HttpRequest req, Guid id, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("HTTP trigger function processed a request.");
 
@@ -93,9 +91,9 @@ namespace SiteOfRefuge.API
         /// <param name="body"> The Refugee to use. </param>
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/> or <paramref name="body"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
         [FunctionName("UpdateRefugeeAsync_put")]
-        public async Task<IActionResult> UpdateRefugeeAsync(string id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "refugees/{id}")] Refugee body, HttpRequest req, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateRefugeeAsync(Guid id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "refugees/{id}")] Refugee body, HttpRequest req, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("HTTP trigger function processed a request.");
 
@@ -110,9 +108,8 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Refugee id in UUID/GUID format. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/> is null. </exception>
         [FunctionName("DeleteRefugeeAsync_delete")]
-        public async Task<IActionResult> DeleteRefugeeAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "refugees/{id}")] HttpRequest req, string id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteRefugeeAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "refugees/{id}")] HttpRequest req, Guid id, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("HTTP trigger function processed a request.");
 

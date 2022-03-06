@@ -68,9 +68,8 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Host id in UUID/GUID format. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/> is null. </exception>
         [FunctionName("GetHostAsync_get")]
-        public async Task<IActionResult> GetHostAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "hosts/{id}")] HttpRequest req, string id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetHostAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "hosts/{id}")] HttpRequest req, Guid id, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("HTTP trigger function processed a request.");
 
@@ -86,9 +85,9 @@ namespace SiteOfRefuge.API
         /// <param name="body"> The Host to use. </param>
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/> or <paramref name="body"/> is null. </exception>
+        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
         [FunctionName("UpdateHostAsync_put")]
-        public async Task<IActionResult> UpdateHostAsync(string id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "hosts/{id}")] Host body, HttpRequest req, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateHostAsync(Guid id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "hosts/{id}")] Host body, HttpRequest req, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("HTTP trigger function processed a request.");
 
@@ -103,9 +102,8 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Host id in UUID/GUID format. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/> is null. </exception>
         [FunctionName("DeleteHostAsync_delete")]
-        public async Task<IActionResult> DeleteHostAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "hosts/{id}")] HttpRequest req, string id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteHostAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "hosts/{id}")] HttpRequest req, Guid id, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("HTTP trigger function processed a request.");
 

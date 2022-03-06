@@ -19,16 +19,20 @@ namespace SiteOfRefuge.API.Models
         }
 
         /// <summary> Initializes a new instance of Availability. </summary>
+        /// <param name="id"> Unique identifier in UUID/GUID format. </param>
         /// <param name="dateAvailable"> Date when shelter will be available. </param>
         /// <param name="active"> Is this shelter currently available for matching with refugees?. </param>
         /// <param name="lengthOfStay"> How long a refugee can stay. </param>
-        internal Availability(DateTimeOffset? dateAvailable, bool? active, AvailabilityLengthOfStay? lengthOfStay)
+        internal Availability(Guid? id, DateTimeOffset? dateAvailable, bool? active, AvailabilityLengthOfStay? lengthOfStay)
         {
+            Id = id;
             DateAvailable = dateAvailable;
             Active = active;
             LengthOfStay = lengthOfStay;
         }
 
+        /// <summary> Unique identifier in UUID/GUID format. </summary>
+        public Guid? Id { get; set; }
         /// <summary> Date when shelter will be available. </summary>
         public DateTimeOffset? DateAvailable { get; set; }
         /// <summary> Is this shelter currently available for matching with refugees?. </summary>

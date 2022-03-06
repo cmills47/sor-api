@@ -53,9 +53,8 @@ namespace SiteOfRefuge.API
         /// <param name="body"> The Id to use. </param>
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
         [FunctionName("InviteRefugeeAsync_post")]
-        public async Task<IActionResult> InviteRefugeeAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "invite")] string body, HttpRequest req, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> InviteRefugeeAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "invite")] Guid body, HttpRequest req, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("HTTP trigger function processed a request.");
 
@@ -71,9 +70,8 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Invite id in UUID/GUID format. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/> is null. </exception>
         [FunctionName("GetInviteAsync_get")]
-        public async Task<IActionResult> GetInviteAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invite/{id}")] HttpRequest req, string id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetInviteAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invite/{id}")] HttpRequest req, Guid id, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("HTTP trigger function processed a request.");
 
@@ -90,9 +88,8 @@ namespace SiteOfRefuge.API
         /// <param name="body"> The Id to use. </param>
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/> or <paramref name="body"/> is null. </exception>
         [FunctionName("AcceptInvitationAsync_put")]
-        public async Task<IActionResult> AcceptInvitationAsync(string id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "invite/{id}")] string body, HttpRequest req, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> AcceptInvitationAsync(Guid id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "invite/{id}")] Guid body, HttpRequest req, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("HTTP trigger function processed a request.");
 
@@ -108,9 +105,8 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Invite id in UUID/GUID format. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="id"/> is null. </exception>
         [FunctionName("DeleteInviteAsync_delete")]
-        public async Task<IActionResult> DeleteInviteAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "invite/{id}")] HttpRequest req, string id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteInviteAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "invite/{id}")] HttpRequest req, Guid id, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("HTTP trigger function processed a request.");
 
