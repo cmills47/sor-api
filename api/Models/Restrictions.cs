@@ -14,6 +14,7 @@ namespace SiteOfRefuge.API
     public readonly partial struct Restrictions : IEquatable<Restrictions>
     {
         private readonly string _value;
+        public string Value { get { return this.Value; } }
 
         /// <summary> Determines if two <see cref="Restrictions"/> values are the same. </summary>
         /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
