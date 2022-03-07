@@ -50,13 +50,13 @@ There is a bit of tricky configuration you will need to setup to have Postman ge
    1. Token Name: Azure AD B2C authenication
    2. Grant Type: Authorization Code (With PKCE)
    3. Callback URL: https://app-staging.siteofrefuge.com
-   4. Authorize using browser: <keep unchecked>
+   4. Authorize using browser: \<keep unchecked\>
    5. Auth URL: {{AUTH_URL}}
    6. Access Token URL: {{TOKEN_URL}}
    7. Client ID: {{CLIENT_ID}}
-   8. Client Secret: <leave blank>
+   8. Client Secret: \<leave blank\>
    9. Code Challenge Method: SHA-256
-   10. Code Verifier: <leave blank>
+   10. Code Verifier: \<leave blank\>
    11. Scope: {{CLIENT_ID}}
    12. State: {{$randomUUID}}
    13. Client Authentication: Send client credentials in body
