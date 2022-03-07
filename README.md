@@ -62,7 +62,7 @@ There is a bit of tricky configuration you will need to setup to have Postman ge
    13. Client Authentication: Send client credentials in body
 6.  Click **Get New Access Token**
 
-At this point you will now have the ability to use that newly minted token with the APIs direclty in Postman.
+At this point you will now have the ability to use that newly minted token with the APIs direclty in Postman. Hit "Use token" and it will insert it as a variable. Now, when creating a new request, under the _Authorization_ header select _"Inherit auth from parent"_ and it will automatically insert your access token in the request.
 
 **NOTE:** It is important that you use the app id (client id) in the scope so that Azure ADB2C will issue an access token on the request. Any id tokens sent to the service will fail validation and be dropped.
 
