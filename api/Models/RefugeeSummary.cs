@@ -14,6 +14,8 @@ namespace SiteOfRefuge.API.Models
     /// <summary> A summary of a refugee. </summary>
     public partial class RefugeeSummary
     {
+        public RefugeeSummary() {}
+
         /// <summary> Initializes a new instance of RefugeeSummary. </summary>
         /// <param name="id"> Unique identifier in UUID/GUID format. </param>
         /// <param name="region"> The region where the refugee is located. </param>

@@ -223,9 +223,19 @@ namespace SiteOfRefuge.API
 
                             JObject availability = new JObject();
                             availability["id"] = sdr.GetGuid(6);
-                            availability["date_available"] = sdr.GetDateTimeOffset(7);
-                            availability["active"] = sdr.GetInt32(8) > 0 ? "true" : "false";
-                            availability["length_of_stay"] = sdr.GetString(9);
+                            try
+                            {
+                                availability["date_available"] = sdr.GetDateTimeOffset(7);
+                            } catch {
+                                availability["date_available"] = "";
+                            }
+                            availability["active"] = sdr.GetBoolean(8);
+                            try
+                            {
+                                availability["length_of_stay"] = sdr.GetString(9);
+                            } catch {
+                                availability["length_of_stay"] = "";
+                            }
                             json["availability"] = availability;
 
                             //contact portion
@@ -272,7 +282,7 @@ namespace SiteOfRefuge.API
                     using(SqlCommand cmd = new SqlCommand($@"select sl.description
                         from hostsummarytolanguages hstl
                         join spokenlanguages sl on hstl.spokenlanguagesid = sl.id
-                        where hstl.refugeesummaryid = {PARAM_HOSTSUMMARYTOLANGUAGES_SUMMARYID}", sql))
+                        where hstl.hostsummaryid = {PARAM_HOSTSUMMARYTOLANGUAGES_SUMMARYID}", sql))
                     {
                         cmd.Parameters.Add(new SqlParameter(PARAM_HOSTSUMMARYTOLANGUAGES_SUMMARYID, System.Data.SqlDbType.UniqueIdentifier));
                         cmd.Parameters[PARAM_HOSTSUMMARYTOLANGUAGES_SUMMARYID].Value = summaryId;
@@ -295,7 +305,7 @@ namespace SiteOfRefuge.API
                     using(SqlCommand cmd = new SqlCommand($@"select r.description
                         from hostsummarytorestrictions hstr
                         join Restrictions r on hstr.restrictionsid = r.id
-                        where hstr.refugeesummaryid = {PARAM_HOSTSUMMARYTORESTRICTIONS_SUMMARYID}", sql))
+                        where hstr.hostsummaryid = {PARAM_HOSTSUMMARYTORESTRICTIONS_SUMMARYID}", sql))
                     {
                         cmd.Parameters.Add(new SqlParameter(PARAM_HOSTSUMMARYTORESTRICTIONS_SUMMARYID, System.Data.SqlDbType.UniqueIdentifier));
                         cmd.Parameters[PARAM_HOSTSUMMARYTORESTRICTIONS_SUMMARYID].Value = summaryId;
@@ -326,6 +336,7 @@ namespace SiteOfRefuge.API
             {
                 //return new BadRequestObjectResult(exc.ToString()); //TODO: DEBUG, not good for real site
                 var resp = req.CreateResponse(HttpStatusCode.NotFound);
+                resp.WriteStringAsync(exc.ToString());
                 return resp;
             }
             // Spec Defines: HTTP 200

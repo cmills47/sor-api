@@ -16,6 +16,8 @@ namespace SiteOfRefuge.API
         private readonly string _value;
         public string Value { get { return this.Value; } }
 
+        public Restrictions() { this._value = null; }
+
         /// <summary> Determines if two <see cref="Restrictions"/> values are the same. </summary>
         /// <exception cref="ArgumentNullException"> <paramref name="value"/> is null. </exception>
         public Restrictions(string value)
