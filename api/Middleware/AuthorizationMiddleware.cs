@@ -27,11 +27,9 @@ namespace SiteOfRefuge.API.Middleware
             {
                 var principalFeature = context.Features.Get<JwtPrincipalFeature>();
                 var claimsIdentity = (ClaimsIdentity)principalFeature.Principal.Identity;
-                System.Console.WriteLine( "Claims: " );
-                foreach(var claim in claimsIdentity.Claims)
-                {
-                    System.Console.WriteLine( $"\t{claim.Type}: {claim.Value}" );
-                }
+                
+                // TODO: We can use the authorization framework to create custom validation, like roles or
+                //       to verify that the subject (sub) claim matches the route path for the Guid.
 
                 await next(context);
             }

@@ -60,7 +60,7 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Refugee id in UUID/GUID format. </param>
         [Function(nameof(GetRefugee))]
-        public HttpResponseData GetRefugee([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "refugees/{id}")] HttpRequestData req, string id, FunctionContext context)
+        public HttpResponseData GetRefugee([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "refugees/{id}")] HttpRequestData req, Guid id, FunctionContext context)
         {
             var logger = context.GetLogger(nameof(GetRefugee));
             logger.LogInformation("HTTP trigger function processed a request.");
@@ -78,7 +78,7 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
         [Function(nameof(UpdateRefugee))]
-        public HttpResponseData UpdateRefugee(string id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "refugees/{id}")] Refugee body, HttpRequestData req, FunctionContext context)
+        public HttpResponseData UpdateRefugee(Guid id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "refugees/{id}")] Refugee body, HttpRequestData req, FunctionContext context)
         {
             var logger = context.GetLogger(nameof(UpdateRefugee));
             logger.LogInformation("HTTP trigger function processed a request.");
@@ -94,7 +94,7 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Refugee id in UUID/GUID format. </param>
         [Function(nameof(DeleteRefugee))]
-        public HttpResponseData DeleteRefugee([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "refugees/{id}")] HttpRequestData req, string id, FunctionContext context)
+        public HttpResponseData DeleteRefugee([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "refugees/{id}")] HttpRequestData req, Guid id, FunctionContext context)
         {
             var logger = context.GetLogger(nameof(DeleteRefugee));
             logger.LogInformation("HTTP trigger function processed a request.");

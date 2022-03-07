@@ -35,7 +35,7 @@ namespace SiteOfRefuge.API.Models
         /// <param name="id"> Unique identifier in UUID/GUID format. </param>
         /// <param name="summary"> Summary of a Host. </param>
         /// <param name="contact"> Contact information of a person. </param>
-        internal Host(string id, HostSummary summary, Contact contact)
+        internal Host(Guid id, HostSummary summary, Contact contact)
         {
             Id = id;
             Summary = summary;
@@ -43,7 +43,7 @@ namespace SiteOfRefuge.API.Models
         }
 
         /// <summary> Unique identifier in UUID/GUID format. </summary>
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         /// <summary> Summary of a Host. </summary>
         public HostSummary Summary { get; set; }
         /// <summary> Contact information of a person. </summary>

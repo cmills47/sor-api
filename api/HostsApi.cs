@@ -54,7 +54,7 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Host id in UUID/GUID format. </param>
         [Function(nameof(GetHost))]
-        public HttpResponseData GetHost([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "hosts/{id}")] HttpRequestData req, string id, FunctionContext context)
+        public HttpResponseData GetHost([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "hosts/{id}")] HttpRequestData req, Guid id, FunctionContext context)
         {
             var logger = context.GetLogger(nameof(GetHost));
             logger.LogInformation("HTTP trigger function processed a request.");
@@ -72,7 +72,7 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
         [Function(nameof(UpdateHost))]
-        public HttpResponseData UpdateHost(string id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "hosts/{id}")] Host body, HttpRequestData req, FunctionContext context)
+        public HttpResponseData UpdateHost(Guid id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "hosts/{id}")] Host body, HttpRequestData req, FunctionContext context)
         {
             var logger = context.GetLogger(nameof(UpdateHost));
             logger.LogInformation("HTTP trigger function processed a request.");
@@ -88,10 +88,10 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Host id in UUID/GUID format. </param>
         [Function(nameof(DeleteHost))]
-        public HttpResponseData DeleteHost([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "hosts/{id}")] HttpRequestData req, string id, FunctionContext context)
+        public HttpResponseData DeleteHost([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "hosts/{id}")] HttpRequestData req, Guid id, FunctionContext context)
         {
             var logger = context.GetLogger(nameof(DeleteHost));            
-            logger.LogInformation("HTTP trigger function processed a request.");
+            logger.LogInformation( $"HTTP trigger function processed a request for {id.ToString()}");
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 202
