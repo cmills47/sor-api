@@ -57,13 +57,14 @@ There is a bit of tricky configuration you will need to setup to have Postman ge
    8. Client Secret: <leave blank>
    9. Code Challenge Method: SHA-256
    10. Code Verifier: <leave blank>
-   11. Scope: openid offline_access
+   11. Scope: {{CLIENT_ID}}
    12. State: {{$randomUUID}}
    13. Client Authentication: Send client credentials in body
 6.  Click **Get New Access Token**
 
 At this point you will now have the ability to use that newly minted token with the APIs direclty in Postman.
 
+**NOTE:** It is important that you use the app id (client id) in the scope so that Azure ADB2C will issue an access token on the request. Any id tokens sent to the service will fail validation and be dropped.
 
 ## Generating code from OpenAPI definition
 
