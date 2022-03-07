@@ -35,7 +35,7 @@ namespace SiteOfRefuge.API.Models
         /// <param name="id"> Unique identifier in UUID/GUID format. </param>
         /// <param name="summary"> A summary of a refugee. </param>
         /// <param name="contact"> Contact information of a person. </param>
-        internal Refugee(Guid? id, RefugeeSummary summary, Contact contact)
+        internal Refugee(string id, RefugeeSummary summary, Contact contact)
         {
             Id = id;
             Summary = summary;
@@ -43,7 +43,7 @@ namespace SiteOfRefuge.API.Models
         }
 
         /// <summary> Unique identifier in UUID/GUID format. </summary>
-        public Guid? Id { get; set; }
+        public string Id { get; set; }
         /// <summary> A summary of a refugee. </summary>
         public RefugeeSummary Summary { get; set; }
         /// <summary> Contact information of a person. </summary>

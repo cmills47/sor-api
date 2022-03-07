@@ -6,12 +6,9 @@
 #nullable disable
 
 using System;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using SiteOfRefuge.API.Models;
 
@@ -19,28 +16,17 @@ namespace SiteOfRefuge.API
 {
     public class HostsApi
     {
-        private ILogger<HostsApi> _logger;
 
         /// <summary> Initializes a new instance of HostsApi. </summary>
-        /// <param name="logger"> Class logger. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="logger"/> is null. </exception>
-        public HostsApi(ILogger<HostsApi> logger)
-        {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            _logger = logger;
-        }
+        public HostsApi() {}
 
         /// <summary> Get a summary list of hosts registered in the system. </summary>
         /// <param name="req"> Raw HTTP Request. </param>
-        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        [FunctionName("GetHostsAsync_get")]
-        public async Task<IActionResult> GetHostsAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "hosts")] HttpRequest req, CancellationToken cancellationToken = default)
+        [Function(nameof(GetHosts))]
+        public HttpResponseData GetHosts([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "hosts")] HttpRequestData req, FunctionContext context)
         {
-            _logger.LogInformation("HTTP trigger function processed a request.");
+            var logger = context.GetLogger(nameof(GetHosts));
+            logger.LogInformation("HTTP trigger function processed a request.");
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 200
@@ -51,12 +37,12 @@ namespace SiteOfRefuge.API
         /// <summary> Registers a new host in the system. </summary>
         /// <param name="body"> The Host to use. </param>
         /// <param name="req"> Raw HTTP Request. </param>
-        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        [FunctionName("AddHostAsync_post")]
-        public async Task<IActionResult> AddHostAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "hosts")] Host body, HttpRequest req, CancellationToken cancellationToken = default)
+        [Function(nameof(AddHost))]
+        public HttpResponseData AddHost([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "hosts")] Host body, HttpRequestData req, FunctionContext context)
         {
-            _logger.LogInformation("HTTP trigger function processed a request.");
+            var logger = context.GetLogger(nameof(AddHost));
+            logger.LogInformation("HTTP trigger function processed a request.");
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 201
@@ -67,11 +53,11 @@ namespace SiteOfRefuge.API
         /// <summary> Get information about a specific host. </summary>
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Host id in UUID/GUID format. </param>
-        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        [FunctionName("GetHostAsync_get")]
-        public async Task<IActionResult> GetHostAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "hosts/{id}")] HttpRequest req, Guid id, CancellationToken cancellationToken = default)
+        [Function(nameof(GetHost))]
+        public HttpResponseData GetHost([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "hosts/{id}")] HttpRequestData req, string id, FunctionContext context)
         {
-            _logger.LogInformation("HTTP trigger function processed a request.");
+            var logger = context.GetLogger(nameof(GetHost));
+            logger.LogInformation("HTTP trigger function processed a request.");
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 200
@@ -84,12 +70,12 @@ namespace SiteOfRefuge.API
         /// <param name="id"> Host id in UUID/GUID format. </param>
         /// <param name="body"> The Host to use. </param>
         /// <param name="req"> Raw HTTP Request. </param>
-        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="body"/> is null. </exception>
-        [FunctionName("UpdateHostAsync_put")]
-        public async Task<IActionResult> UpdateHostAsync(Guid id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "hosts/{id}")] Host body, HttpRequest req, CancellationToken cancellationToken = default)
+        [Function(nameof(UpdateHost))]
+        public HttpResponseData UpdateHost(string id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "hosts/{id}")] Host body, HttpRequestData req, FunctionContext context)
         {
-            _logger.LogInformation("HTTP trigger function processed a request.");
+            var logger = context.GetLogger(nameof(UpdateHost));
+            logger.LogInformation("HTTP trigger function processed a request.");
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 204
@@ -101,11 +87,11 @@ namespace SiteOfRefuge.API
         /// <summary> Schedules a host to be deleted from the system (after 7 days archival). </summary>
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Host id in UUID/GUID format. </param>
-        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        [FunctionName("DeleteHostAsync_delete")]
-        public async Task<IActionResult> DeleteHostAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "hosts/{id}")] HttpRequest req, Guid id, CancellationToken cancellationToken = default)
+        [Function(nameof(DeleteHost))]
+        public HttpResponseData DeleteHost([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "hosts/{id}")] HttpRequestData req, string id, FunctionContext context)
         {
-            _logger.LogInformation("HTTP trigger function processed a request.");
+            var logger = context.GetLogger(nameof(DeleteHost));            
+            logger.LogInformation("HTTP trigger function processed a request.");
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 202

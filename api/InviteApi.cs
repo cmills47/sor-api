@@ -8,38 +8,24 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 namespace SiteOfRefuge.API
 {
     public class InviteApi
     {
-        private ILogger<InviteApi> _logger;
-
         /// <summary> Initializes a new instance of InviteApi. </summary>
-        /// <param name="logger"> Class logger. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="logger"/> is null. </exception>
-        public InviteApi(ILogger<InviteApi> logger)
-        {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            _logger = logger;
-        }
+        public InviteApi() {}
 
         /// <summary> Lists any current invitation requests for this user. </summary>
         /// <param name="req"> Raw HTTP Request. </param>
-        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        [FunctionName("GetInvitesAsync_get")]
-        public async Task<IActionResult> GetInvitesAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invite")] HttpRequest req, CancellationToken cancellationToken = default)
+        [Function(nameof(GetInvites))]
+        public HttpResponseData GetInvites([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invite")] HttpRequestData req, FunctionContext context)
         {
-            _logger.LogInformation("HTTP trigger function processed a request.");
+            var logger = context.GetLogger(nameof(GetInvites));
+            logger.LogInformation("HTTP trigger function processed a request.");
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 200
@@ -52,11 +38,11 @@ namespace SiteOfRefuge.API
         /// <summary> Invite a refugee to connect. </summary>
         /// <param name="body"> The Id to use. </param>
         /// <param name="req"> Raw HTTP Request. </param>
-        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        [FunctionName("InviteRefugeeAsync_post")]
-        public async Task<IActionResult> InviteRefugeeAsync([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "invite")] Guid body, HttpRequest req, CancellationToken cancellationToken = default)
+        [Function(nameof(InviteRefugee))]
+        public HttpResponseData InviteRefugee([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "invite")] string body, HttpRequestData req, FunctionContext context)
         {
-            _logger.LogInformation("HTTP trigger function processed a request.");
+            var logger = context.GetLogger(nameof(InviteRefugee));
+            logger.LogInformation("HTTP trigger function processed a request.");
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 204
@@ -69,11 +55,11 @@ namespace SiteOfRefuge.API
         /// <summary> Show an invitation. </summary>
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Invite id in UUID/GUID format. </param>
-        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        [FunctionName("GetInviteAsync_get")]
-        public async Task<IActionResult> GetInviteAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invite/{id}")] HttpRequest req, Guid id, CancellationToken cancellationToken = default)
+        [Function(nameof(GetInvite))]
+        public HttpResponseData GetInvite([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invite/{id}")] HttpRequestData req, string id, FunctionContext context)
         {
-            _logger.LogInformation("HTTP trigger function processed a request.");
+            var logger = context.GetLogger(nameof(GetInvite));
+            logger.LogInformation("HTTP trigger function processed a request.");
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 200
@@ -87,11 +73,11 @@ namespace SiteOfRefuge.API
         /// <param name="id"> Invite id in UUID/GUID format. </param>
         /// <param name="body"> The Id to use. </param>
         /// <param name="req"> Raw HTTP Request. </param>
-        /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        [FunctionName("AcceptInvitationAsync_put")]
-        public async Task<IActionResult> AcceptInvitationAsync(Guid id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "invite/{id}")] Guid body, HttpRequest req, CancellationToken cancellationToken = default)
+        [Function(nameof(AcceptInvitation))]
+        public HttpResponseData AcceptInvitation(string id, [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "invite/{id}")] string body, HttpRequestData req, FunctionContext context)
         {
-            _logger.LogInformation("HTTP trigger function processed a request.");
+            var logger = context.GetLogger(nameof(AcceptInvitation));
+            logger.LogInformation("HTTP trigger function processed a request.");
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 204
@@ -105,10 +91,11 @@ namespace SiteOfRefuge.API
         /// <param name="req"> Raw HTTP Request. </param>
         /// <param name="id"> Invite id in UUID/GUID format. </param>
         /// <param name="cancellationToken"> The cancellation token provided on Function shutdown. </param>
-        [FunctionName("DeleteInviteAsync_delete")]
-        public async Task<IActionResult> DeleteInviteAsync([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "invite/{id}")] HttpRequest req, Guid id, CancellationToken cancellationToken = default)
+        [Function(nameof(DeleteInvite))]
+        public HttpResponseData DeleteInvite([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "invite/{id}")] HttpRequestData req, string id, FunctionContext context)
         {
-            _logger.LogInformation("HTTP trigger function processed a request.");
+            var logger = context.GetLogger(nameof(DeleteInvite));
+            logger.LogInformation("HTTP trigger function processed a request.");
 
             // TODO: Handle Documented Responses.
             // Spec Defines: HTTP 200
